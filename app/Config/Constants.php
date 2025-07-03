@@ -92,3 +92,7 @@ defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest a
 // define('DB_NAME', 'ci_users');
 // define('DB_USER', 'developer');
 // define('DB_PASS', '12345');
+
+
+//encription key
+define('ENCRIPTION_KEY',         'HKg1bcrWRxHAh8liAiBIFGtYjnvEYLSV');
