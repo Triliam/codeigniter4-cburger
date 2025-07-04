@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\Restaurant;
+use App\Models\User;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class AuthController extends BaseController
@@ -20,6 +21,12 @@ class AuthController extends BaseController
         //validation errors
         // adiciona ao $data[] uma variavel 'validation_errors'
         $data['validation_errors'] = session()->getFlashdata('validation_errors');
+
+        //persistencia dados restaurante
+        $data['select_restaurant'] = session()->getFlashdata('select_restaurant');
+
+        //login error
+        $data['login_error'] = session()->getFlashdata('login_error');
 
         return view('auth/login_frm', $data);
     }
@@ -56,9 +63,22 @@ class AuthController extends BaseController
         ]);
 
         if(!$validation) {
-            redirect()->back()->withInput()->with('validation_errors', $this->validator->getErrors());  
+            session()->setFlashdata('select_restaurant', Decrypt($this->request->getPost('select_restaurant')));
+         return redirect()->back()->withInput()->with('validation_errors', $this->validator->getErrors());
+            
         }
-        echo 'ok';
+        // check login
+        $username = $this->request->getPost('text_username');
+        $password = $this->request->getPost('text_password');
+        $id_restaurant = Decrypt($this->request->getPost('select_restaurant'));
+        $user_model = new User();
+        $user = $user_model->check_for_login($username, $password, $id_restaurant);
+
+        if(!$user){
+            session()->setFlashdata('select_restaurant', Decrypt($this->request->getPost('select_restaurant')));
+         return redirect()->back()->withInput()->with('login_error', 'Usuário ou senha inválidos.');
+        }
+        dd($user);
     }
 
     public function logout() {

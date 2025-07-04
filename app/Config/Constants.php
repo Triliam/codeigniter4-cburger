@@ -95,4 +95,4 @@ defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest a
 
 
 //encription key
-define('ENCRIPTION_KEY',         'HKg1bcrWRxHAh8liAiBIFGtYjnvEYLSV');
+define('ENCRYPTION_KEY',         'HKg1bcrWRxHAh8liAiBIFGtYjnvEYLSV');

@@ -14,7 +14,13 @@
                 <select name="select_restaurant" id="select_restaurant" class="form-select">
                     <option value=""></option>
                     <?php foreach($restaurants as $restaurant): ?>
-                        <option value="<?= Encrypt($restaurant->id) ?>"><?= $restaurant->name ?></option>
+                        <?php
+                            $selected ='';
+                            if(!empty($select_restaurant) && $select_restaurant == $restaurant->id){
+                                $selected = 'selected';
+                            } 
+                        ?>
+                        <option value="<?= Encrypt($restaurant->id) ?>" <?= $selected ?>><?= $restaurant->name ?></option>
                     <?php endforeach; ?>
                 </select>
                <?= display_error('select_restaurant', $validation_errors) ?>
@@ -40,6 +46,11 @@
             <p>Não tem conta? <a href="#" class="login-link">Cadastre-se</a></p>
             <p><a href="#" class="login-link">Reperar senha</a></p>
         </div>
+        <?php if(!empty($login_error)): ?>
+            <div class="alert alert-danger text-center p-1">
+                <?= $login_error ?>
+        <?php endif; ?>
+            </div>
     </div>
 
 <?= $this->endSection() ?>

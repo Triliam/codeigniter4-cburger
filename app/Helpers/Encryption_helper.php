@@ -16,7 +16,7 @@ function Encrypt($value) {
         return null;
     }
     try {
-        $decryption = \Config\Services::decrypter();
+        $decryption = \Config\Services::encrypter();
         return $decryption->decrypt(hex2bin($value));
     } catch(\Exception $e) {
         return null;
