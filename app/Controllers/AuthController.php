@@ -78,10 +78,27 @@ class AuthController extends BaseController
             session()->setFlashdata('select_restaurant', Decrypt($this->request->getPost('select_restaurant')));
          return redirect()->back()->withInput()->with('login_error', 'Usuário ou senha inválidos.');
         }
-        dd($user);
+        //set session
+        $restaurant_model = new Restaurant();
+        $restaurant_name = $restaurant_model->select('name')->find($user->id_restaurant)->name;
+
+        $user_data = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'id_restaurant' => $user->id_restaurant,
+            'restaurant_name' => $restaurant_name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'roles' => $user->roles,
+        ];
+
+        session()->set('user', $user_data);
+        return redirect()->to('/');
     }
 
-    public function logout() {
- 
+    public function logout()
+    {
+        session()->destroy();
+        return redirect()->to('/auth/login');
     }
 }
