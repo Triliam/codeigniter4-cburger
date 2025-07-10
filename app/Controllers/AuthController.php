@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\Restaurant;
 use App\Models\User;
-use CodeIgniter\HTTP\ResponseInterface;
+
 
 class AuthController extends BaseController
 {

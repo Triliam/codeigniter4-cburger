@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CBurger</title>
+    <title>CBurger <?= !empty($title) ? $title : '' ?></title>
     <!-- favicon -->
      <link rel="shortcut icon" href="<?= base_url('assets/images/logo.png') ?>" type="image/png">
     <!-- bootstrap -->
