@@ -1,8 +1,18 @@
 <div class="col-xxl-6 col-12 ">
 <div class="content-box shadow overflow-hidden">
     <div class="d-flex">
+
+    <?php 
+        $image = base_url('assets/images/products/' . $product->image);
+
+        $tmp = ROOTPATH . 'public/assets/images/products' . $product->image;
+            if(!file_exists($tmp)){
+                $image = base_url('assets/images/products/no_image.png');
+        } 
+    ?>
+
         <div>
-            <img src=" <?= base_url('assets/images/products/' . $product->image) ?>" class="img-fluid" alt="$product->image">
+            <img src="<?= $image ?>" class="img-fluid" alt="$product->image">
         </div>
         <div class="ms-4 w-100">
             <h3 class="m-0"><strong><?= $product->name ?></strong></h3>

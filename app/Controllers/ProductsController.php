@@ -129,6 +129,13 @@ class ProductsController extends BaseController
 
             return redirect()->back()->withInput()->with('validation_errors', $this->validator->getErrors());
         }
+
+        //validates if the image file is not equal to 'no_image.png'
+        if($this->request->getFile('file_image')->getName() == 'no_image.png') {
+            return redirect()->back()->withInput()->with('validation_errors', ['file_image' => 'O campo imagem do produto precisa ser preenchido.']);
+        }
+
+
         //check if product already exists
         $product_model = new Product();
         $product = $product_model->where('name', $this->request->getPost('text_name'))->where('id_restaurant', session()->user['id_restaurant'])->first();
@@ -138,7 +145,8 @@ class ProductsController extends BaseController
 
         //upload image
         $file_image = $this->request->getFile('file_image');
-        $file_image->move(ROOTPATH . 'public/assets/images/products', $file_image->getName(), true);
+        $final_file_name = prefixed_product_file_name($file_image->getName(), true);
+        $file_image->move(ROOTPATH . 'public/assets/images/products', $final_file_name, true);
 
         //prepare data to insert
         $data = [
@@ -146,11 +154,11 @@ class ProductsController extends BaseController
             'name' => $this->request->getPost('text_name'),
             'description' => $this->request->getPost('text_description'),
             'category' => $this->request->getPost('text_category'),
-            'price' => $this->request->getPost('text_price'),
+            'price' => preg_replace("/\,/", ".", $this->request->getPost('text_price')),
             'promotion' => $this->request->getPost('text_promotion'),
             'stock' => $this->request->getPost('text_initial_stock'),
             'stock_min_limit' => $this->request->getPost('text_stock_minimum_limit'),
-            'image' => $file_image->getName()
+            'image' => $final_file_name
         ];
 
         //insert data
@@ -176,6 +184,9 @@ class ProductsController extends BaseController
 
         $data['validation_errors'] = session()->getFlashdata('validation_errors');
 
+        //server validation
+        $data['server_error'] = session()->getFlashdata('server_error');
+
         //get product data by id
         $product_model = new Product();
         $data['product'] = $product_model->find($id);
@@ -195,21 +206,7 @@ class ProductsController extends BaseController
     {
          //form validation
         $validation = $this->validate([
-            // product image
-            'file_image' => [
-                'label' => 'imagem do produto',
-                'rules' => [
-                    'uploaded[file_image]',
-                    'mime_in[file_image,image/png]',
-                    'max_size[file_image,200]'
-                ],
-                'errors' => [
-                    'uploaded' => 'O campo {field} é obrigatório',
-                    'mime_in' => 'O campo {field} deve ser uma imagem PNG',
-                    'max_size' => 'O campo {field} deve ter no máximo 200KB'
-                ]
-            ],
-
+           
             // input fields
             'text_name' => [
                 'label' => 'nome do produto',
@@ -276,5 +273,51 @@ class ProductsController extends BaseController
 
             return redirect()->back()->withInput()->with('validation_errors', $this->validator->getErrors());
         }
+
+           //validates if the image file is not equal to 'no_image.png'
+        if($this->request->getFile('file_image')->getName() == 'no_image.png') {
+            return redirect()->back()->withInput()->with('validation_errors', ['file_image' => 'O campo imagem do produto precisa ser preenchido.']);
+        }
+
+           // check if product already exists
+    $product_model = new Product();
+    $product = $product_model->where('name', $this->request->getPost('text_name'))->where('id_restaurant', session()->user['id_restaurant'])->where('id !=', $id)->first();
+    if($product){
+        return redirect()->back()->withInput()->with('server_error', 'Já existe outro produto com o mesmo nome.');
     }
+    // prepare data to update product
+
+    $data = [
+        'name' => $this->request->getPost('text_name'),
+        'description' => $this->request->getPost('text_description'),
+        'category' => $this->request->getPost('text_category'),
+        'price' => preg_replace("/\,/", ".", $this->request->getPost('text_price')),
+        'availability' => $this->request->getPost('check_available') ? 1 : 0,
+        'promotion' => $this->request->getPost('text_promotion'),
+        'stock_min_limit' => $this->request->getPost('text_stock_minimun_limit'),
+    ];
+    // check if the product image was chance
+
+    $file_image = $this->request->getFile('file_image');
+    if($file_image->getName() != ''){
+
+        //prefix image name
+        $final_file_name = prefixed_product_file_name($file_image->getName());
+
+        //upload image
+        $file_image->move('./assets/images/products/', $final_file_name, true);
+
+        //update image
+        $data['image'] = $final_file_name;
+    }
+    //update product
+
+    $product_model->update($id, $data);
+
+    //redirect
+    return redirect()->to('/products');
+    
+    }
+
+
 }

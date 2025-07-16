@@ -17,3 +17,10 @@ function calculate_promotion($value, $discount)
     //round to 2 decimal
     return round($value - ($value * $discount)/100, 2);
 }
+
+function prefixed_product_file_name($file_name) 
+{
+    //create a prefix of 'rest with the restaurant id in the session
+    $prefix = 'rest_' . str_pad(session()->user['id_restaurant'], 5, '0', STR_PAD_LEFT);
+    return $prefix . '_' . $file_name;
+}
