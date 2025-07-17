@@ -27,6 +27,8 @@ class ProductsController extends BaseController
         return view('dashboard/products/index', $data);
     }
 
+
+    //create product
     public function newProduct()
     {
         $data = [
@@ -168,6 +170,7 @@ class ProductsController extends BaseController
         return  redirect()->to('/products');
     }
 
+    //edit product
     public function edit($enc_id)
     {
         $id = Decrypt($enc_id);
@@ -317,6 +320,51 @@ class ProductsController extends BaseController
     //redirect
     return redirect()->to('/products');
     
+    }
+
+    //delete product
+
+    public function deleteProduct($enc_id) 
+    {
+        $id = Decrypt($enc_id);
+        if(empty($id)){
+            return redirect()->to('/products');
+        }
+        //check if product exists
+        $product_model = new Product();
+        $product = $product_model->find($id);
+        if(!$product) {
+            return redirect()->to('/products');
+        }
+
+        //show delete confirmation
+
+        $data = [
+            'title' => 'Produtos',
+             'page' => 'Eliminar produto',
+             'product' => $product
+        ];
+        return view('dashboard/products/delete_product', $data);
+    }
+
+    public function deleteConfirm($enc_id) 
+    {
+        $id = Decrypt($enc_id);
+        if(empty($id)){
+            return redirect()->to('/products');
+        }
+        //check if product exists
+        $product_model = new Product();
+        $product = $product_model->find($id);
+        if(!$product) {
+            return redirect()->to('/products');
+        }
+        //delete product
+
+        $product_model->delete($id);
+
+        //redirect
+        return redirect()->to('/products');
     }
 
 

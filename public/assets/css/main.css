@@ -172,3 +172,10 @@ body {
 .overflow-hidden {
     overflow: hidden;
 }
+
+/* stock */
+
+.image-stock {
+    max-height: 100px;
+    max-width: 100px;
+}

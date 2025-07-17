@@ -27,8 +27,9 @@ $routes->get('/products/edit/(:alphanum)', 'ProductsController::edit/$1');
 $routes->post('/products/edit_submit', 'ProductsController::edit_submit');
 
 //delete product
-$routes->get('/products/delete/(:alphanum)', 'ProductsController::delete/$1');
-$routes->get('/products/delete_confirm/(:alphanum)', 'ProductsController::delete_confirm/$1');
+$routes->get('/products/delete/(:alphanum)', 'ProductsController::deleteProduct/$1');
+$routes->get('/products/delete_confirm/(:alphanum)', 'ProductsController::deleteConfirm/$1');
 
 //stock
+$routes->get('stocks/', 'StocksController::index');
 $routes->get('stocks/product/(:alphanum)',  'StocksController::stock/$1');
