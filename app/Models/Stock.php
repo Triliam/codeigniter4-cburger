@@ -12,7 +12,7 @@ class Stock extends Model
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_product', 'stock_quantity', 'stock_supplier', 'reason', 'created_at', 'updated_at'];
+    protected $allowedFields    = ['id_product', 'stock_quantity', 'stock_in_out', 'stock_supplier', 'reason', 'movement_date', 'created_at', 'updated_at'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,4 +43,12 @@ class Stock extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function get_stock_suppliers($id_restaurant) {
+        //get distinct suppliers within stocks table that belongs to this restaurant
+        $builder = $this->db->table('stocks')->distinct()->select('stocks.stock_supplier')->join('products', 'stocks.id_product = products.id')->where('products.id_restaurant', $id_restaurant)->where('stocks.stock_in_out', 'IN');
+
+        $query = $builder->get();
+        return $query->getResult();
+    }
 }

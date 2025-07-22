@@ -1,47 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CBurger <?= !empty($title) ? $title : '' ?></title>
     <!-- favicon -->
-     <link rel="shortcut icon" href="<?= base_url('assets/images/logo.png') ?>" type="image/png">
+    <link rel="shortcut icon" href="<?= base_url('assets/images/logo.png') ?>" type="image/png">
     <!-- bootstrap -->
-     <link rel="stylesheet" href="<?= base_url('assets/libs/bootstrap/bootstrap.min.css') ?>">
-     <!-- fontawesome -->
-      <link rel="stylesheet" href="<?= base_url('assets/libs/fontawesome/all.min.css') ?>">
-          <!-- google font -->
+    <link rel="stylesheet" href="<?= base_url('assets/libs/bootstrap/bootstrap.min.css') ?>">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="<?= base_url('assets/libs/fontawesome/all.min.css') ?>">
+    <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-      <!-- css -->
-       <link rel="stylesheet" href="<?= base_url('assets/css/main.css') ?>">
+    <!-- flatpickr -->
+     <link rel="stylesheet" href="<?= base_url('assets/libs/flatpickr/flatpickr.min.css') ?>">
+    <!-- css -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/main.css') ?>">
 </head>
+
 <body>
 
-<!-- top bar -->
- <?= $this->include('partials/top_bar.php') ?>
+    <!-- top bar -->
+    <?= $this->include('partials/top_bar.php') ?>
 
- <!-- main -->
-  <section class="d-flex">
+    <!-- main -->
+    <section class="d-flex">
 
- <!-- main menu -->
-  <nav class="main-menu p-2">
-    <?= $this->include('partials/main_menu.php') ?>
-  </nav>
+        <!-- main menu -->
+        <nav class="main-menu p-2">
+            <?= $this->include('partials/main_menu.php') ?>
+        </nav>
 
-  <!-- content -->
-    <!-- render section -->
-     <div class="content p-4 flex-fill">
-        <?= $this->renderSection('content') ?>
-     </div>    
-</section>
+        <!-- content -->
+        <!-- render section -->
+        <div class="content p-4 flex-fill">
+            <?= $this->renderSection('content') ?>
+        </div>
+    </section>
 
-<!-- footer -->
- <?= $this->include('partials/footer.php') ?>
+    <!-- footer -->
+    <?= $this->include('partials/footer.php') ?>
 
     <!-- script bootstrap -->
-<script src="<?= base_url('assets/libs/bootstrap/bootstrap.bundle.min.js') ?>"></script>
+    <script src="<?= base_url('assets/libs/bootstrap/bootstrap.bundle.min.js') ?>"></script>
+    <!-- flatpickr -->
+     <script src="<?= base_url('assets/libs/flatpickr/flatpickr.min.js')?>"></script>
 
     <script>
         document.querySelector(".btn-main-menu").addEventListener("click", () => {
@@ -50,4 +56,5 @@
         })
     </script>
 </body>
+
 </html>

@@ -24,7 +24,7 @@ $routes->post('products/prodsubmit', 'ProductsController::submitProduct' );
 
 //edit products
 $routes->get('/products/edit/(:alphanum)', 'ProductsController::edit/$1');
-$routes->post('/products/edit_submit', 'ProductsController::edit_submit');
+$routes->post('/products/edit_submit', 'ProductsController::editSubmit');
 
 //delete product
 $routes->get('/products/delete/(:alphanum)', 'ProductsController::deleteProduct/$1');
@@ -32,4 +32,9 @@ $routes->get('/products/delete_confirm/(:alphanum)', 'ProductsController::delete
 
 //stock
 $routes->get('stocks/', 'StocksController::index');
-$routes->get('stocks/product/(:alphanum)',  'StocksController::stock/$1');
+$routes->get('stocks/product/(:alphanum)', 'StocksController::stock/$1');
+$routes->get('stocks/add/(:alphanum)', 'StocksController::add/$1');
+$routes->post('stocks/addsubmit', 'StocksController::addSubmit');
+
+$routes->get('stocks/remove/(:alphanum)', 'StocksController::remove/$1');
+$routes->post('stocks/removesubmit', 'StocksController::removeSubmit');

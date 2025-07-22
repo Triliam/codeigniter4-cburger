@@ -205,7 +205,7 @@ class ProductsController extends BaseController
         return view('dashboard/products/edit_product_frm', $data);
     }
 
-    public function edit_submit() 
+    public function editSubmit() 
     {
          //form validation
         $validation = $this->validate([
